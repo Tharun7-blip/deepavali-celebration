@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="description" content="Deepavali - Traditional Indian Festival of Lights Celebration. Interactive fireworks, brass diyas with glowing flames, rangoli, and festive Web Audio soundscapes in English and Kannada.">
+  <meta name="theme-color" content="#1a0826">
+  <title>Deepavali – Traditional Indian Festival of Lights | ದೀಪಾವಳಿ ಹಬ್ಬದ ಹಾರ್ದಿಕ ಶುಭಾಶಯಗಳು</title>
+
+  <!-- Google Fonts (with fallback to system fonts for complete offline support) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700;800&family=Noto+Serif+Kannada:wght@500;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Fullscreen Interactive Canvas for Fireworks & Atmosphere -->
+  <canvas id="fireworks-canvas" aria-hidden="true"></canvas>
+
+  <!-- Floating Falling Petals Canvas -->
+  <canvas id="petals-canvas" aria-hidden="true"></canvas>
+
+  <!-- Main Celebration Experience Wrapper -->
+  <div class="celebration-wrapper">
+
+    <!-- Traditional Toran & Decorative Top Border -->
+    <header class="traditional-toran" aria-label="Decorative festive toran">
+      <div class="toran-garland">
+        <!-- Repeating marigold flowers, mango leaves, and golden bells -->
+        <div class="garland-segment"><span class="leaf mango-leaf"></span><span class="flower marigold-orange"></span><span class="leaf mango-leaf"></span><span class="bell golden-bell">🔔</span></div>
+        <div class="garland-segment"><span class="leaf mango-leaf"></span><span class="flower marigold-yellow"></span><span class="leaf mango-leaf"></span></div>
+        <div class="garland-segment"><span class="leaf mango-leaf"></span><span class="flower marigold-orange"></span><span class="leaf mango-leaf"></span><span class="bell golden-bell">🔔</span></div>
+        <div class="garland-segment"><span class="leaf mango-leaf"></span><span class="flower marigold-yellow"></span><span class="leaf mango-leaf"></span></div>
+        <div class="garland-segment"><span class="leaf mango-leaf"></span><span class="flower marigold-orange"></span><span class="leaf mango-leaf"></span><span class="bell golden-bell">🔔</span></div>
+        <div class="garland-segment"><span class="leaf mango-leaf"></span><span class="flower marigold-yellow"></span><span class="leaf mango-leaf"></span></div>
+        <div class="garland-segment"><span class="leaf mango-leaf"></span><span class="flower marigold-orange"></span><span class="leaf mango-leaf"></span><span class="bell golden-bell">🔔</span></div>
+      </div>
+    </header>
+
+    <!-- Traditional Ornate Corner Borders -->
+    <div class="corner-ornament corner-top-left" aria-hidden="true">
+      <svg viewBox="0 0 100 100" class="ornament-svg">
+        <path d="M0,0 L100,0 C60,10 40,30 30,70 C25,40 10,20 0,0 Z" fill="url(#goldGrad)" opacity="0.85"/>
+        <path d="M5,5 Q45,25 25,65 Q20,35 5,5" fill="none" stroke="#ffe082" stroke-width="1.5"/>
+        <circle cx="28" cy="28" r="4" fill="#ffd700"/>
+        <circle cx="15" cy="15" r="2.5" fill="#fff3b0"/>
+      </svg>
+    </div>
+    <div class="corner-ornament corner-top-right" aria-hidden="true">
+      <svg viewBox="0 0 100 100" class="ornament-svg">
+        <path d="M100,0 L0,0 C40,10 60,30 70,70 C75,40 90,20 100,0 Z" fill="url(#goldGrad)" opacity="0.85"/>
+        <path d="M95,5 Q55,25 75,65 Q80,35 95,5" fill="none" stroke="#ffe082" stroke-width="1.5"/>
+        <circle cx="72" cy="28" r="4" fill="#ffd700"/>
+        <circle cx="85" cy="15" r="2.5" fill="#fff3b0"/>
+      </svg>
+    </div>
+
+    <!-- Reusable SVG Definitions for Gradients and Filters -->
+    <svg width="0" height="0" class="svg-defs-only" aria-hidden="true">
+      <defs>
+        <!-- Golden Metallic Gradient -->
+        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fff5cc"/>
+          <stop offset="30%" stop-color="#f5c042"/>
+          <stop offset="60%" stop-color="#d4af37"/>
+          <stop offset="90%" stop-color="#aa771c"/>
+          <stop offset="100%" stop-color="#ffd966"/>
+        </linearGradient>
+
+        <!-- Brass Lamp Gradient -->
+        <linearGradient id="brassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#ffe680"/>
+          <stop offset="25%" stop-color="#d49b28"/>
+          <stop offset="70%" stop-color="#8a5710"/>
+          <stop offset="100%" stop-color="#543105"/>
+        </linearGradient>
+
+        <!-- Diya Oil Gradient -->
+        <radialGradient id="oilGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffb703"/>
+          <stop offset="60%" stop-color="#b05700"/>
+          <stop offset="100%" stop-color="#4a1800"/>
+        </radialGradient>
+
+        <!-- Flame Inner Glow Filter -->
+        <filter id="flameGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur1"/>
+          <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur2"/>
+          <feMerge>
+            <feMergeNode in="blur2"/>
+            <feMergeNode in="blur1"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Main Content Presentation Section -->
+    <main class="main-celebration-container">
+
+      <!-- Auspicious Festive Badge -->
+      <div class="auspicious-badge" aria-label="Auspicious Shloka">
+        <span class="sacred-symbol">ॐ</span>
+        <span class="shloka-text">ತಮಸೋ ಮಾ ಜ್ಯೋತಿರ್ಗಮಯ • Lead us from darkness unto light</span>
+        <span class="sacred-symbol">ॐ</span>
+      </div>
+
+      <!-- Main Greetings Card -->
+      <section class="greetings-card" aria-label="Diwali Greetings">
+        <!-- Traditional Arch Top Motif -->
+        <div class="card-arch-ornament" aria-hidden="true">
+          <svg viewBox="0 0 200 30" class="arch-svg">
+            <path d="M10,25 Q100,-15 190,25" fill="none" stroke="url(#goldGrad)" stroke-width="2.5"/>
+            <circle cx="100" cy="5" r="4" fill="#ffd700"/>
+            <circle cx="70" cy="11" r="2.5" fill="#ffd700"/>
+            <circle cx="130" cy="11" r="2.5" fill="#ffd700"/>
+          </svg>
+        </div>
+
+        <!-- Primary English Heading -->
+        <h1 class="main-title gold-text-shimmer">
+          Happy Diwali!
+        </h1>
+
+        <!-- Primary Kannada Heading -->
+        <h2 class="kannada-title gold-text-glow" lang="kn">
+          ದೀಪಾವಳಿ ಹಬ್ಬದ ಹಾರ್ದಿಕ ಶುಭಾಶಯಗಳು
+        </h2>
+
+        <!-- Divider Ornament -->
+        <div class="decorative-divider" aria-hidden="true">
+          <span class="divider-line"></span>
+          <span class="divider-gem">✦ 🪔 ✦</span>
+          <span class="divider-line"></span>
+        </div>
+
+        <!-- English Message -->
+        <p class="english-message">
+          May your life shine with happiness, prosperity and peace.
+        </p>
+
+        <!-- Kannada Message -->
+        <p class="kannada-message" lang="kn">
+          ನಿಮ್ಮ ಜೀವನ ಸಂತೋಷ, ಸಮೃದ್ಧಿ ಮತ್ತು ಶಾಂತಿಯಿಂದ ಬೆಳಗಲಿ.
+        </p>
+
+        <!-- Interactive Hint / Tip -->
+        <div class="sky-tap-hint" id="sky-hint">
+          <span class="hint-sparkle">✨</span>
+          <span>Tap anywhere in the sky to launch colorful fireworks!</span>
+          <span class="hint-sparkle">✨</span>
+        </div>
+      </section>
+
+      <!-- Celebration Action Controls -->
+      <nav class="celebration-controls" aria-label="Celebration Controls">
+        <button id="btn-start" class="btn btn-primary" title="Launch a grand musical fireworks display">
+          <span class="btn-icon">🎆</span>
+          <span class="btn-text">Start Celebration</span>
+          <span class="btn-ripple"></span>
+        </button>
+
+        <button id="btn-replay" class="btn btn-secondary" title="Replay a colorful fireworks barrage">
+          <span class="btn-icon">✨</span>
+          <span class="btn-text">Replay Fireworks</span>
+        </button>
+
+        <button id="btn-music" class="btn btn-secondary" title="Toggle traditional festive chimes and ambience" aria-pressed="false">
+          <span class="btn-icon" id="music-icon">🎵</span>
+          <span class="btn-text" id="music-label">Music Off</span>
+          <span class="audio-waves" id="audio-waves" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+
+        <button id="btn-diyas" class="btn btn-secondary" title="Light or rekindle all sacred diyas">
+          <span class="btn-icon">🪔</span>
+          <span class="btn-text" id="diyas-label">Light All Diyas</span>
+        </button>
+
+        <button id="btn-fullscreen" class="btn btn-secondary" title="Toggle Fullscreen display" aria-pressed="false">
+          <span class="btn-icon" id="fs-icon">⛶</span>
+          <span class="btn-text" id="fs-label">Fullscreen</span>
+        </button>
+      </nav>
+
+      <!-- Toast / Notification for User Actions -->
+      <div id="toast" class="toast-notification" role="status" aria-live="polite"></div>
+
+    </main>
+
+    <!-- Traditional Bottom Altar with Rangoli & Glowing Brass Diyas -->
+    <footer class="diya-altar-section" aria-label="Traditional Diya Altar">
+
+      <!-- Floor Glow Area -->
+      <div class="altar-ground-glow" id="ground-glow" aria-hidden="true"></div>
+
+      <!-- Sacred Mandala Rangoli Base -->
+      <div class="rangoli-container" aria-hidden="true">
+        <svg viewBox="0 0 600 200" class="rangoli-svg" preserveAspectRatio="xMidYMid meet">
+          <!-- Outer Radiance -->
+          <ellipse cx="300" cy="140" rx="280" ry="50" fill="url(#goldGrad)" opacity="0.12"/>
+          
+          <!-- Central Ornate Rangoli Mandala -->
+          <g transform="translate(300, 130) scale(1, 0.45)" class="rangoli-mandala">
+            <!-- Central Lotus Petals -->
+            <circle cx="0" cy="0" r="160" fill="none" stroke="#d4af37" stroke-width="2" stroke-dasharray="6,4" opacity="0.6"/>
+            <circle cx="0" cy="0" r="120" fill="none" stroke="#ffb703" stroke-width="2" opacity="0.7"/>
+            <circle cx="0" cy="0" r="80" fill="none" stroke="#ff5400" stroke-width="2.5" opacity="0.8"/>
+            <circle cx="0" cy="0" r="40" fill="none" stroke="#ffd700" stroke-width="3" opacity="0.9"/>
+            
+            <!-- 8-Petal Rangoli Flower -->
+            <path d="M0,0 C30,-70 50,-70 0,-110 C-50,-70 -30,-70 0,0" fill="#9d0208" stroke="#ffe082" stroke-width="1.5" opacity="0.85"/>
+            <path d="M0,0 C70,-30 70,-50 110,0 C70,50 70,30 0,0" fill="#9d0208" stroke="#ffe082" stroke-width="1.5" opacity="0.85"/>
+            <path d="M0,0 C30,70 50,70 0,110 C-50,70 -30,70 0,0" fill="#9d0208" stroke="#ffe082" stroke-width="1.5" opacity="0.85"/>
+            <path d="M0,0 C-70,-30 -70,-50 -110,0 C-70,50 -70,30 0,0" fill="#9d0208" stroke="#ffe082" stroke-width="1.5" opacity="0.85"/>
+            
+            <!-- Diagonal Petals -->
+            <path d="M0,0 C55,-55 70,-40 78,-78 C40,-70 55,-55 0,0" fill="#d00000" stroke="#ffd700" stroke-width="1.5" opacity="0.8"/>
+            <path d="M0,0 C55,55 70,40 78,78 C40,70 55,55 0,0" fill="#d00000" stroke="#ffd700" stroke-width="1.5" opacity="0.8"/>
+            <path d="M0,0 C-55,55 -70,40 -78,78 C-40,70 -55,55 0,0" fill="#d00000" stroke="#ffd700" stroke-width="1.5" opacity="0.8"/>
+            <path d="M0,0 C-55,-55 -70,-40 -78,-78 C-40,-70 -55,-55 0,0" fill="#d00000" stroke="#ffd700" stroke-width="1.5" opacity="0.8"/>
+            
+            <!-- Traditional Dots (Bindus) -->
+            <circle cx="0" cy="-135" r="4" fill="#ffd700"/>
+            <circle cx="135" cy="0" r="4" fill="#ffd700"/>
+            <circle cx="0" cy="135" r="4" fill="#ffd700"/>
+            <circle cx="-135" cy="0" r="4" fill="#ffd700"/>
+            <circle cx="95" cy="-95" r="3.5" fill="#ffe082"/>
+            <circle cx="95" cy="95" r="3.5" fill="#ffe082"/>
+            <circle cx="-95" cy="95" r="3.5" fill="#ffe082"/>
+            <circle cx="-95" cy="-95" r="3.5" fill="#ffe082"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Traditional Brass Diyas Row (Interactive Click to Light/Extinguish) -->
+      <div class="diyas-row" role="region" aria-label="Interactive Traditional Brass Diyas">
+
+        <!-- Diya 1 (Small Left) -->
+        <div class="diya-unit diya-small" data-diya="1" tabindex="0" role="button" aria-label="Brass Diya 1, Tap to light or extinguish">
+          <div class="diya-aura"></div>
+          <div class="flame-wrapper is-lit">
+            <div class="flame-outer"></div>
+            <div class="flame-mid"></div>
+            <div class="flame-core"></div>
+            <div class="flame-smoke"></div>
+          </div>
+          <!-- Brass Diya Body SVG -->
+          <svg viewBox="0 0 100 65" class="brass-diya-svg">
+            <!-- Brass Pedestal -->
+            <path d="M35,55 L65,55 L60,63 L40,63 Z" fill="url(#brassGrad)" stroke="#3a1e05" stroke-width="0.8"/>
+            <ellipse cx="50" cy="55" rx="14" ry="3" fill="#ffd54f" opacity="0.7"/>
+            <!-- Diya Bowl -->
+            <path d="M12,32 C20,52 80,52 88,32 C92,30 96,24 96,20 C85,26 65,30 50,30 C35,30 15,26 4,20 C4,24 8,30 12,32 Z" fill="url(#brassGrad)" stroke="#4a2505" stroke-width="1"/>
+            <!-- Oil Rim & Pool -->
+            <ellipse cx="50" cy="27" rx="38" ry="8" fill="url(#oilGrad)"/>
+            <ellipse cx="50" cy="27" rx="35" ry="6" fill="#3a1300" opacity="0.6"/>
+            <!-- Engraved Brass Filigree Rim -->
+            <path d="M15,27 Q50,36 85,27" fill="none" stroke="#ffe082" stroke-width="1.2" stroke-dasharray="2,2"/>
+            <!-- Wick -->
+            <path d="M50,28 Q50,15 50,11" stroke="#2b1704" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <div class="diya-label">Tap to toggle</div>
+        </div>
+
+        <!-- Diya 2 (Medium Left) -->
+        <div class="diya-unit diya-medium" data-diya="2" tabindex="0" role="button" aria-label="Brass Diya 2, Tap to light or extinguish">
+          <div class="diya-aura"></div>
+          <div class="flame-wrapper is-lit">
+            <div class="flame-outer"></div>
+            <div class="flame-mid"></div>
+            <div class="flame-core"></div>
+            <div class="flame-smoke"></div>
+          </div>
+          <svg viewBox="0 0 100 65" class="brass-diya-svg">
+            <path d="M35,55 L65,55 L60,63 L40,63 Z" fill="url(#brassGrad)" stroke="#3a1e05" stroke-width="0.8"/>
+            <ellipse cx="50" cy="55" rx="14" ry="3" fill="#ffd54f" opacity="0.7"/>
+            <path d="M12,32 C20,52 80,52 88,32 C92,30 96,24 96,20 C85,26 65,30 50,30 C35,30 15,26 4,20 C4,24 8,30 12,32 Z" fill="url(#brassGrad)" stroke="#4a2505" stroke-width="1"/>
+            <ellipse cx="50" cy="27" rx="38" ry="8" fill="url(#oilGrad)"/>
+            <ellipse cx="50" cy="27" rx="35" ry="6" fill="#3a1300" opacity="0.6"/>
+            <path d="M15,27 Q50,36 85,27" fill="none" stroke="#ffe082" stroke-width="1.2" stroke-dasharray="2,2"/>
+            <path d="M50,28 Q50,15 50,11" stroke="#2b1704" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <div class="diya-label">Tap to toggle</div>
+        </div>
+
+        <!-- Diya 3 (Grand Central Maha Diya) -->
+        <div class="diya-unit diya-grand" data-diya="3" tabindex="0" role="button" aria-label="Grand Maha Brass Diya 3, Tap to light or extinguish">
+          <div class="diya-aura grand-aura"></div>
+          <div class="flame-wrapper grand-flame is-lit">
+            <div class="flame-outer"></div>
+            <div class="flame-mid"></div>
+            <div class="flame-core"></div>
+            <div class="flame-smoke"></div>
+          </div>
+          <svg viewBox="0 0 120 75" class="brass-diya-svg grand-svg">
+            <!-- Multi-tiered Ornate Brass Stand -->
+            <path d="M38,62 L82,62 L78,72 L42,72 Z" fill="url(#brassGrad)" stroke="#301503" stroke-width="1"/>
+            <ellipse cx="60" cy="62" rx="20" ry="4" fill="#ffd54f" opacity="0.8"/>
+            <path d="M48,50 L72,50 L68,62 L52,62 Z" fill="url(#brassGrad)"/>
+            <!-- Ornate Bowl with Sacred Spout -->
+            <path d="M10,34 C20,60 100,60 110,34 C116,30 120,23 118,18 C105,26 80,32 60,32 C40,32 15,26 2,18 C0,23 4,30 10,34 Z" fill="url(#brassGrad)" stroke="#4a2505" stroke-width="1.2"/>
+            <!-- Sacred Flower Engraving -->
+            <ellipse cx="60" cy="30" rx="46" ry="10" fill="url(#oilGrad)"/>
+            <ellipse cx="60" cy="30" rx="42" ry="7.5" fill="#331000" opacity="0.6"/>
+            <!-- Golden Carved Beading -->
+            <path d="M12,30 Q60,42 108,30" fill="none" stroke="#ffe082" stroke-width="1.8" stroke-dasharray="3,3"/>
+            <circle cx="60" cy="46" r="3" fill="#ffe082"/>
+            <circle cx="45" cy="45" r="2.2" fill="#ffd54f"/>
+            <circle cx="75" cy="45" r="2.2" fill="#ffd54f"/>
+            <!-- Thick Wick -->
+            <path d="M60,31 Q60,16 60,10" stroke="#241202" stroke-width="3.5" stroke-linecap="round"/>
+          </svg>
+          <div class="diya-label">Maha Deepa</div>
+        </div>
+
+        <!-- Diya 4 (Medium Right) -->
+        <div class="diya-unit diya-medium" data-diya="4" tabindex="0" role="button" aria-label="Brass Diya 4, Tap to light or extinguish">
+          <div class="diya-aura"></div>
+          <div class="flame-wrapper is-lit">
+            <div class="flame-outer"></div>
+            <div class="flame-mid"></div>
+            <div class="flame-core"></div>
+            <div class="flame-smoke"></div>
+          </div>
+          <svg viewBox="0 0 100 65" class="brass-diya-svg">
+            <path d="M35,55 L65,55 L60,63 L40,63 Z" fill="url(#brassGrad)" stroke="#3a1e05" stroke-width="0.8"/>
+            <ellipse cx="50" cy="55" rx="14" ry="3" fill="#ffd54f" opacity="0.7"/>
+            <path d="M12,32 C20,52 80,52 88,32 C92,30 96,24 96,20 C85,26 65,30 50,30 C35,30 15,26 4,20 C4,24 8,30 12,32 Z" fill="url(#brassGrad)" stroke="#4a2505" stroke-width="1"/>
+            <ellipse cx="50" cy="27" rx="38" ry="8" fill="url(#oilGrad)"/>
+            <ellipse cx="50" cy="27" rx="35" ry="6" fill="#3a1300" opacity="0.6"/>
+            <path d="M15,27 Q50,36 85,27" fill="none" stroke="#ffe082" stroke-width="1.2" stroke-dasharray="2,2"/>
+            <path d="M50,28 Q50,15 50,11" stroke="#2b1704" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <div class="diya-label">Tap to toggle</div>
+        </div>
+
+        <!-- Diya 5 (Small Right) -->
+        <div class="diya-unit diya-small" data-diya="5" tabindex="0" role="button" aria-label="Brass Diya 5, Tap to light or extinguish">
+          <div class="diya-aura"></div>
+          <div class="flame-wrapper is-lit">
+            <div class="flame-outer"></div>
+            <div class="flame-mid"></div>
+            <div class="flame-core"></div>
+            <div class="flame-smoke"></div>
+          </div>
+          <svg viewBox="0 0 100 65" class="brass-diya-svg">
+            <path d="M35,55 L65,55 L60,63 L40,63 Z" fill="url(#brassGrad)" stroke="#3a1e05" stroke-width="0.8"/>
+            <ellipse cx="50" cy="55" rx="14" ry="3" fill="#ffd54f" opacity="0.7"/>
+            <path d="M12,32 C20,52 80,52 88,32 C92,30 96,24 96,20 C85,26 65,30 50,30 C35,30 15,26 4,20 C4,24 8,30 12,32 Z" fill="url(#brassGrad)" stroke="#4a2505" stroke-width="1"/>
+            <ellipse cx="50" cy="27" rx="38" ry="8" fill="url(#oilGrad)"/>
+            <ellipse cx="50" cy="27" rx="35" ry="6" fill="#3a1300" opacity="0.6"/>
+            <path d="M15,27 Q50,36 85,27" fill="none" stroke="#ffe082" stroke-width="1.2" stroke-dasharray="2,2"/>
+            <path d="M50,28 Q50,15 50,11" stroke="#2b1704" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <div class="diya-label">Tap to toggle</div>
+        </div>
+
+      </div>
+
+      <!-- Traditional Festive Greeting Footer Note -->
+      <div class="altar-blessing-note">
+        <span>✨ Shubh Deepavali • ಶುಭ ದೀಪಾವಳಿ • Festival of Lights ✨</span>
+      </div>
+
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

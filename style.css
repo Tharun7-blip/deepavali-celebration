@@ -1,0 +1,1028 @@
+/* ==========================================================================
+   DEEPAVALI – Traditional Indian Festival of Lights
+   Stylesheet: Royal Indian Festival Theme, Realistic Diyas & Fluid Layout
+   Performance Optimized (GPU Accelerated, Low Overdraw, High Frame Rate)
+   ========================================================================== */
+
+:root {
+  /* Color Palette */
+  --bg-dark-base: #0a0410;
+  --bg-gradient-top: #150524;
+  --bg-gradient-mid: #2b061d;
+  --bg-gradient-bottom: #12020a;
+
+  --gold-primary: #d4af37;
+  --gold-light: #fff2b2;
+  --gold-bright: #ffd700;
+  --gold-amber: #ffaa00;
+  --gold-deep: #aa771c;
+  --gold-shadow: rgba(212, 175, 55, 0.35);
+
+  --maroon-rich: #4a0515;
+  --maroon-card: rgba(43, 6, 29, 0.85);
+  --maroon-border: rgba(212, 175, 55, 0.4);
+
+  --flame-core: #ffffff;
+  --flame-yellow: #ffe600;
+  --flame-orange: #ff6000;
+  --flame-red: #d90429;
+  --flame-blue: #00b4d8;
+
+  --text-primary: #fff8e7;
+  --text-muted: #e6cfa8;
+
+  /* Fonts */
+  --font-serif-decorative: 'Cinzel Decorative', 'Georgia', serif;
+  --font-serif: 'Cinzel', 'Georgia', serif;
+  --font-kannada: 'Noto Serif Kannada', 'Tunga', 'Kavi', 'Kedage', 'Nudi', 'Nirmala UI', serif;
+  --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Transitions & Radii */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --radius-card: 20px;
+  --radius-btn: 30px;
+}
+
+/* ==========================================================================
+   Base Reset & Layout
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background-color: var(--bg-dark-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Background Gradients: Deep Maroon, Dark Purple, Royal Midnight Blue */
+body {
+  background: radial-gradient(circle at 50% 15%, #2a083b 0%, #150524 45%, #0a0312 100%);
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* ==========================================================================
+   Single High-Performance Canvas (Fireworks & Petals)
+   ========================================================================== */
+#fireworks-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto; /* Intercepts touch/clicks for fireworks launch */
+  display: block;
+  z-index: 1;
+  cursor: crosshair;
+  /* Hardware composite acceleration */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Petals Canvas for floating marigold and rose petals */
+#petals-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  display: block;
+  transform: translateZ(0);
+}
+
+/* ==========================================================================
+   Celebration Wrapper (Interactive UI Overlay)
+   ========================================================================== */
+.celebration-wrapper {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  pointer-events: none; /* Allows sky clicks to reach canvas */
+}
+
+/* Child interactive containers enable clicks */
+.traditional-toran,
+.main-celebration-container,
+.diya-altar-section {
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   Traditional Toran (Marigold Garland & Mango Leaves)
+   ========================================================================== */
+.traditional-toran {
+  width: 100%;
+  max-width: 1200px;
+  padding-top: 4px;
+  display: flex;
+  justify-content: center;
+  z-index: 15;
+  contain: layout style;
+}
+
+.toran-garland {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%;
+  border-top: 3px solid #d4af37;
+  padding-top: 2px;
+  position: relative;
+}
+
+.toran-garland::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(90deg, #d4af37, #ffd700 8px, #8a5710 16px);
+}
+
+.garland-segment {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  animation: toranSway 5s ease-in-out infinite alternate;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.garland-segment:nth-child(even) {
+  animation-duration: 5.8s;
+  animation-delay: -1.5s;
+}
+
+@keyframes toranSway {
+  0% { transform: rotate(-1.2deg); }
+  100% { transform: rotate(1.2deg); }
+}
+
+.mango-leaf {
+  width: 12px;
+  height: 28px;
+  background: linear-gradient(135deg, #2d6a4f, #1b4332);
+  border-radius: 0 100% 0 100%;
+  border-bottom: 1.5px solid #d4af37;
+  display: inline-block;
+}
+
+.marigold-orange {
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, #ff9f1c 20%, #d00000 95%);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 4px rgba(255, 120, 0, 0.5);
+}
+
+.marigold-yellow {
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, #ffea00 30%, #ff9e00 95%);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 4px rgba(255, 220, 0, 0.5);
+}
+
+.golden-bell {
+  font-size: 14px;
+  animation: bellRing 3.5s ease-in-out infinite alternate;
+  display: inline-block;
+  will-change: transform;
+}
+
+@keyframes bellRing {
+  0% { transform: rotate(-6deg); }
+  100% { transform: rotate(6deg); }
+}
+
+/* ==========================================================================
+   Corner Ornaments
+   ========================================================================== */
+.corner-ornament {
+  position: fixed;
+  width: 85px;
+  height: 85px;
+  z-index: 12;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.corner-top-left {
+  top: 0;
+  left: 0;
+}
+
+.corner-top-right {
+  top: 0;
+  right: 0;
+}
+
+.ornament-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.svg-defs-only {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Main Celebration Center Container
+   ========================================================================== */
+.main-celebration-container {
+  max-width: 820px;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px 0 20px 0;
+  position: relative;
+  z-index: 20;
+}
+
+/* Auspicious Shloka Badge */
+.auspicious-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 18px;
+  border-radius: 30px;
+  background: rgba(30, 8, 38, 0.7);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  margin-bottom: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.sacred-symbol {
+  font-size: 1.15rem;
+  color: var(--gold-bright);
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
+}
+
+.shloka-text {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  color: var(--gold-light);
+  font-family: var(--font-kannada);
+}
+
+/* ==========================================================================
+   Greetings Card (Optimized Backdrop Filter & Box Shadow)
+   ========================================================================== */
+.greetings-card {
+  width: 100%;
+  background: var(--maroon-card);
+  border: 1.5px solid var(--maroon-border);
+  border-radius: var(--radius-card);
+  padding: 28px 24px 24px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(212, 175, 55, 0.15);
+  position: relative;
+  transform: translateZ(0);
+}
+
+.card-arch-ornament {
+  width: 100%;
+  max-width: 220px;
+  margin: 0 auto 6px;
+}
+
+.arch-svg {
+  width: 100%;
+  height: auto;
+}
+
+/* Main English Heading */
+.main-title {
+  font-family: var(--font-serif-decorative);
+  font-size: clamp(2rem, 5.2vw, 3.6rem);
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+/* Golden Shimmer Effect */
+.gold-text-shimmer {
+  background: linear-gradient(
+    110deg,
+    #ffe680 0%,
+    #ffd700 25%,
+    #ffffff 50%,
+    #d4af37 75%,
+    #aa771c 100%
+  );
+  background-size: 200% auto;
+  color: #ffd700;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldFoilFlow 8s linear infinite;
+}
+
+@keyframes goldFoilFlow {
+  to { background-position: 200% center; }
+}
+
+/* Main Kannada Heading */
+.kannada-title {
+  font-family: var(--font-kannada);
+  font-size: clamp(1.35rem, 3.8vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  padding: 0 8px;
+}
+
+.gold-text-glow {
+  color: #fff2b2;
+  text-shadow: 
+    0 0 8px rgba(255, 215, 0, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Divider Ornament */
+.decorative-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 12px auto 16px;
+  max-width: 420px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.7), transparent);
+}
+
+.divider-gem {
+  color: var(--gold-bright);
+  font-size: 1.05rem;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
+}
+
+/* Messages */
+.english-message {
+  font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+  font-weight: 400;
+  color: #fffaf0;
+  letter-spacing: 0.4px;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.kannada-message {
+  font-family: var(--font-kannada);
+  font-size: clamp(1.02rem, 2.4vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.7;
+  color: #ffe082;
+  margin-bottom: 16px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Sky Tap Hint */
+.sky-tap-hint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 20px;
+  font-size: 0.82rem;
+  color: #ffd54f;
+  border: 1px dashed rgba(255, 215, 0, 0.3);
+}
+
+.hint-sparkle {
+  color: var(--gold-bright);
+}
+
+/* ==========================================================================
+   Celebration Action Controls
+   ========================================================================== */
+.celebration-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+  width: 100%;
+}
+
+.btn {
+  appearance: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+}
+
+/* Primary Button (Start Celebration) */
+.btn-primary {
+  background: linear-gradient(135deg, #c9184a 0%, #800f2f 50%, #590d22 100%);
+  color: #fff9e6;
+  border: 1.5px solid var(--gold-bright);
+  box-shadow: 
+    0 4px 14px rgba(201, 24, 74, 0.4),
+    0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 6px 18px rgba(201, 24, 74, 0.5),
+    0 0 16px rgba(255, 215, 0, 0.45);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: rgba(35, 10, 45, 0.75);
+  color: var(--gold-light);
+  border: 1.5px solid rgba(212, 175, 55, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-secondary:hover {
+  background: rgba(55, 15, 70, 0.85);
+  border-color: var(--gold-bright);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+  transform: translateY(1px);
+}
+
+.btn-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+/* Audio waves animation for music button */
+.audio-waves {
+  display: none;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.audio-waves span {
+  width: 2.5px;
+  background: var(--gold-bright);
+  border-radius: 1px;
+  animation: waveBar 1s ease-in-out infinite alternate;
+}
+
+.audio-waves span:nth-child(1) { height: 40%; animation-delay: -0.2s; }
+.audio-waves span:nth-child(2) { height: 90%; animation-delay: -0.5s; }
+.audio-waves span:nth-child(3) { height: 60%; animation-delay: -0.8s; }
+
+@keyframes waveBar {
+  0% { height: 20%; }
+  100% { height: 100%; }
+}
+
+.btn[aria-pressed="true"] .audio-waves {
+  display: inline-flex;
+}
+
+/* Toast Notifications */
+.toast-notification {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(25, 5, 30, 0.95);
+  color: #ffe082;
+  border: 1px solid var(--gold-bright);
+  padding: 10px 22px;
+  border-radius: 25px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: transform 0.3s var(--ease-spring), opacity 0.3s ease;
+  z-index: 100;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.toast-notification.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Traditional Bottom Altar Section (Rangoli & Brass Diyas)
+   ========================================================================== */
+.diya-altar-section {
+  width: 100%;
+  max-width: 1000px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 12px;
+  z-index: 20;
+}
+
+/* Floor Ambient Glow */
+.altar-ground-glow {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 750px;
+  height: 90px;
+  background: radial-gradient(ellipse at 50% 60%, rgba(255, 170, 0, 0.4) 0%, rgba(200, 70, 0, 0.18) 45%, transparent 75%);
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* Rangoli Container */
+.rangoli-container {
+  width: 100%;
+  max-width: 680px;
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.85;
+}
+
+.rangoli-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Diyas Row */
+.diyas-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(12px, 3.5vw, 42px);
+  width: 100%;
+  position: relative;
+  z-index: 5;
+  padding: 10px 10px 4px;
+}
+
+/* Individual Diya Unit */
+.diya-unit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease-spring);
+  outline: none;
+}
+
+.diya-unit:focus-visible {
+  outline: 2px dashed var(--gold-bright);
+  outline-offset: 6px;
+  border-radius: 12px;
+}
+
+.diya-unit:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+.diya-unit:active {
+  transform: scale(0.98);
+}
+
+/* Sizes */
+.diya-small {
+  width: clamp(55px, 9vw, 75px);
+}
+
+.diya-medium {
+  width: clamp(70px, 11vw, 95px);
+}
+
+.diya-grand {
+  width: clamp(95px, 15vw, 135px);
+}
+
+/* SVGs inside Diya */
+.brass-diya-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 3;
+}
+
+.diya-label {
+  font-size: 0.65rem;
+  color: var(--gold-light);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(-4px);
+  pointer-events: none;
+  white-space: nowrap;
+  margin-top: 4px;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.diya-unit:hover .diya-label,
+.diya-unit:focus-visible .diya-label {
+  opacity: 0.9;
+  transform: translateY(0);
+}
+
+/* Diya Radial Light Aura (Optimized Transform) */
+.diya-aura {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(circle, rgba(255, 180, 0, 0.45) 0%, rgba(255, 100, 0, 0.2) 40%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+  will-change: transform, opacity;
+  animation: auraPulse 3.5s ease-in-out infinite alternate;
+}
+
+.grand-aura {
+  width: 165px;
+  height: 165px;
+  background: radial-gradient(circle, rgba(255, 200, 20, 0.5) 0%, rgba(255, 120, 0, 0.25) 45%, transparent 75%);
+}
+
+@keyframes auraPulse {
+  0% { transform: translate3d(-50%, -50%, 0) scale(0.95); opacity: 0.75; }
+  100% { transform: translate3d(-50%, -50%, 0) scale(1.05); opacity: 0.95; }
+}
+
+/* Flame Container & Architecture */
+.flame-wrapper {
+  position: relative;
+  width: 22px;
+  height: 40px;
+  margin-bottom: -10px;
+  z-index: 4;
+  transform-origin: bottom center;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  will-change: transform;
+}
+
+.grand-flame {
+  width: 30px;
+  height: 52px;
+  margin-bottom: -14px;
+}
+
+/* Flame Layers (Optimized GPU Rendering: single box-shadow instead of multiple drop-shadow filters) */
+.flame-outer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at 50% 85%, #ffe600 0%, #ff5500 50%, #d90429 85%, transparent 100%);
+  border-radius: 50% 50% 35% 35% / 80% 80% 20% 20%;
+  box-shadow: 0 0 10px #ff6600, 0 0 20px rgba(255, 180, 0, 0.6);
+  animation: flameFlickerOuter 2s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+  will-change: transform;
+}
+
+.flame-mid {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  width: 65%;
+  height: 75%;
+  background: radial-gradient(ellipse at 50% 85%, #ffffff 0%, #fff3b0 30%, #ffaa00 80%, transparent 100%);
+  border-radius: 50% 50% 35% 35% / 80% 80% 20% 20%;
+  box-shadow: 0 0 6px #ffe600;
+  animation: flameFlickerMid 1.6s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+  will-change: transform;
+}
+
+.flame-core {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  width: 35%;
+  height: 45%;
+  background: linear-gradient(to top, #00b4d8, #ffffff 60%);
+  border-radius: 50% 50% 35% 35% / 80% 80% 20% 20%;
+  opacity: 0.95;
+}
+
+.flame-smoke {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  width: 4px;
+  height: 12px;
+  background: linear-gradient(to top, rgba(255, 200, 100, 0.3), transparent);
+  border-radius: 50%;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@keyframes flameFlickerOuter {
+  0% { transform: translate3d(-50%, 0, 0) scale(1) rotate(-1.5deg); }
+  25% { transform: translate3d(-50%, 0, 0) scale(0.97, 1.04) rotate(1deg); }
+  50% { transform: translate3d(-50%, 0, 0) scale(1.03, 0.96) rotate(-1.8deg); }
+  75% { transform: translate3d(-50%, 0, 0) scale(0.98, 1.02) rotate(1.2deg); }
+  100% { transform: translate3d(-50%, 0, 0) scale(1.02, 1) rotate(0deg); }
+}
+
+@keyframes flameFlickerMid {
+  0% { transform: translate3d(-50%, 0, 0) scale(1) rotate(1deg); }
+  50% { transform: translate3d(-50%, 0, 0) scale(1.04, 0.96) rotate(-1.2deg); }
+  100% { transform: translate3d(-50%, 0, 0) scale(0.96, 1.03) rotate(1deg); }
+}
+
+/* Extinguished Diya State */
+.flame-wrapper.is-extinguished {
+  opacity: 0;
+  transform: scale(0.3);
+  pointer-events: none;
+}
+
+.diya-unit.is-extinguished .diya-aura {
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0) scale(0.2);
+}
+
+.diya-unit.is-extinguished .brass-diya-svg {
+  filter: brightness(0.7);
+}
+
+/* Altar Blessing Note */
+.altar-blessing-note {
+  font-size: 0.78rem;
+  color: var(--gold-primary);
+  margin-top: 10px;
+  letter-spacing: 0.6px;
+  text-align: center;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  position: relative;
+  z-index: 6;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+
+/* Mobile Phones (Portrait <= 480px) */
+@media (max-width: 480px) {
+  .celebration-wrapper {
+    padding: 0 10px;
+  }
+
+  .auspicious-badge {
+    padding: 4px 12px;
+    margin-bottom: 10px;
+  }
+
+  .shloka-text {
+    font-size: 0.72rem;
+    letter-spacing: 0.4px;
+  }
+
+  .greetings-card {
+    padding: 20px 14px 18px;
+    border-radius: 16px;
+  }
+
+  .main-title {
+    font-size: 1.85rem;
+    margin-bottom: 4px;
+  }
+
+  .kannada-title {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .english-message {
+    font-size: 0.88rem;
+    margin-bottom: 6px;
+  }
+
+  .kannada-message {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .decorative-divider {
+    margin: 8px auto 10px;
+  }
+
+  .sky-tap-hint {
+    font-size: 0.74rem;
+    padding: 5px 10px;
+  }
+
+  .celebration-controls {
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .btn {
+    padding: 9px 15px;
+    font-size: 0.82rem;
+    gap: 6px;
+  }
+
+  .btn-icon {
+    font-size: 1rem;
+  }
+
+  .diyas-row {
+    gap: 10px;
+    padding: 6px 4px 2px;
+  }
+
+  .diya-small {
+    width: 48px;
+  }
+
+  .diya-medium {
+    width: 58px;
+  }
+
+  .diya-grand {
+    width: 82px;
+  }
+
+  .flame-wrapper {
+    width: 18px;
+    height: 32px;
+    margin-bottom: -8px;
+  }
+
+  .grand-flame {
+    width: 24px;
+    height: 42px;
+    margin-bottom: -11px;
+  }
+
+  .altar-blessing-note {
+    font-size: 0.7rem;
+    margin-top: 6px;
+  }
+
+  .corner-ornament {
+    width: 60px;
+    height: 60px;
+  }
+
+  .garland-segment:nth-child(even) {
+    display: none;
+  }
+}
+
+/* Landscape / Small Height Screens */
+@media (max-height: 580px) and (orientation: landscape) {
+  .traditional-toran,
+  .auspicious-badge,
+  .sky-tap-hint {
+    display: none;
+  }
+
+  .greetings-card {
+    padding: 12px 18px;
+  }
+
+  .main-title {
+    font-size: 1.5rem;
+  }
+
+  .kannada-title {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+
+  .english-message {
+    font-size: 0.82rem;
+    margin-bottom: 2px;
+  }
+
+  .kannada-message {
+    font-size: 0.88rem;
+    margin-bottom: 6px;
+  }
+
+  .celebration-controls {
+    margin-top: 8px;
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 7px 14px;
+    font-size: 0.78rem;
+  }
+
+  .diya-altar-section {
+    padding-bottom: 4px;
+  }
+
+  .diyas-row {
+    padding: 2px;
+  }
+
+  .diya-small { width: 42px; }
+  .diya-medium { width: 52px; }
+  .diya-grand { width: 70px; }
+}
+
+/* Reduced Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .gold-text-shimmer {
+    background-position: 0 0 !important;
+  }
+}
